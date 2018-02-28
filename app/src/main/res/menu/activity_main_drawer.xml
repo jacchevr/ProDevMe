@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <group android:checkableBehavior="single">
+    <item
+      android:id="@+id/my_resumes"
+      android:icon="@drawable/ic_menu_myresumes"
+      android:title="My Resumes"/>
+    <item
+    android:id="@+id/create_resume"
+    android:icon="@drawable/create"
+    android:title="Create Resume"/>
+    <item
+      android:id="@+id/upload_resume"
+      android:icon="@drawable/resume_upload"
+      android:title="Upload Resume"/>
+
+  </group>
+
+  <item android:title="Resources">
+    <menu>
+      <item
+        android:id="@+id/news"
+        android:icon="@drawable/news"
+        android:title="News"/>
+
+      <item
+        android:id="@+id/resume_create"
+        android:icon="@drawable/resume_creation"
+        android:title="Resume Creation Tools"/>
+
+        />
+    </menu>
+  </item>
+
+</menu>
