@@ -3,7 +3,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="edu.cnm.deepdive.prodevme.WelcomeScreenFragment">
+  tools:context="edu.cnm.deepdive.prodevme.WelcomeScreenFragment"
+  app:layout_constraintBottom_toBottomOf="parent">
 
   <!-- TODO: Update blank fragment layout -->
   <ImageView
@@ -31,20 +32,19 @@
       android:id="@+id/welcomeMessage"
       android:textStyle="bold"
       android:gravity="center"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="20dp"
+      android:layout_marginTop="60dp"
       android:paddingLeft="10dp"
       android:paddingRight="10dp"
       android:ems="10"
       android:fontFamily="serif"
-      android:inputType="textPersonName"
       android:text="Welcome, professional!"
       android:textColor="#4f4f4f"
-      android:textSize="30dp"
+      android:textSize="30sp"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="@+id/imageView2"/>
+      app:layout_constraintTop_toTopOf="parent"/>
 
 
 

@@ -2,13 +2,20 @@ package edu.cnm.deepdive.prodevme.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = User.class,
+    parentColumns = "id",
+    childColumns = "user_id"))
+
 public class Document {
 
   @PrimaryKey(autoGenerate = true)
-  private int id;
+  private long id;
+
+  @ColumnInfo(name = "user_id")
+  private long userId;
 
   @ColumnInfo(name = "profession")
   private String profession;
@@ -22,11 +29,11 @@ public class Document {
   @ColumnInfo(name = "cover_letter")
   private String coverLetter;
 
-  public int getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(long id) {
     this.id = id;
   }
 
@@ -62,6 +69,10 @@ public class Document {
     this.coverLetter = coverLetter;
   }
 
+  public long getUserId() { return userId; }
+
+  public void setUserId(long userId) { this.userId = userId; }
+
   @Override
-  public String toString() { return profession + " in " + industry + "/n" + resume;}
+  public String toString() { return String.format("%s in %s%n%s", profession, industry, resume);}
 }

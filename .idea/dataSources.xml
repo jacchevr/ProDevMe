@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="ProDevMe" uuid="ad605632-ccb7-4987-b8b2-1d34376f55b3">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$USER_HOME$/Library/Caches/IntelliJIdea2017.3/android/databases/SERIAL_NUMBER_192_168_56_101_5555/edu.cnm.deepdive.prodevme/internal/document</jdbc-url>
+    </data-source>
+  </component>
+</project>
