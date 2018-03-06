@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.prodevme;
 
+import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,11 +11,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import edu.cnm.deepdive.prodevme.models.User;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
   private ResumeDatabase rDatabase;
+  private long userId;
+  private String firstName;
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +46,25 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
-    getSupportFragmentManager().beginTransaction()
-                               .replace(R.id.fragment_container, new WelcomeScreenFragment())
-                               .commit();
+
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        List<User> userList = getDatabase().userDao().getAll();
+        if (userList.isEmpty()){
+          getSupportFragmentManager().beginTransaction()
+              .replace(R.id.fragment_container, new NameSetup())
+              .commit();
+        } else {
+          setUserId(userList.get(0).getId());
+          setFirstName(userList.get(0).getFirstName());
+          getSupportFragmentManager().beginTransaction()
+              .replace(R.id.fragment_container, new WelcomeScreenFragment())
+              .commit();
+        }
+      }
+    }).start();
+
 
   }
 
@@ -104,4 +134,11 @@ public class MainActivity extends AppCompatActivity
     return rDatabase;
   }
 
+  public long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(long userId) {
+    this.userId = userId;
+  }
 }
