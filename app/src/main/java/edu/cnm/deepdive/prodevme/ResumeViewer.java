@@ -46,9 +46,9 @@ public class ResumeViewer extends Fragment implements OnItemClickListener {
     bundle.putLong(SingleResume.DOCUMENT_KEY, documentId);
     SingleResume singleResume = new SingleResume();
     singleResume.setArguments(bundle);
-    getFragmentManager().beginTransaction().setCustomAnimations(android.R.anim.slide_in_left,
-        android.R.anim.slide_out_right).replace(R.id.fragment_container,
-        singleResume).addToBackStack("String").commit();
+    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
+        R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left).
+        replace(R.id.fragment_container, singleResume).addToBackStack("String").commit();
 //    getFragmentManager().beginTransaction().replace
 //        (R.id.fragment_container, singleResume).addToBackStack("String").commit();
   }

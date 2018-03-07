@@ -12,7 +12,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:fontFamily="serif"
-    android:text="Here are your resumes!"
+    android:text="@string/resume_viewer_message"
     android:textAlignment="center"
     android:textColor="#4f4f4f"
     android:textSize="30sp"

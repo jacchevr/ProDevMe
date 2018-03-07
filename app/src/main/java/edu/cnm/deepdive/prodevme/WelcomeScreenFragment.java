@@ -12,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import edu.cnm.deepdive.prodevme.models.Document;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.w3c.dom.Text;
 
 
@@ -36,8 +38,28 @@ public class WelcomeScreenFragment extends Fragment implements OnClickListener {
     View welcome = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
     TextView welcomeText = welcome.findViewById(R.id.welcomeMessage);
     resume = welcome.findViewById(R.id.resumePreview);
-    welcomeText.setText(String.format("Welcome, %s!", ((MainActivity)
-        getActivity()).getFirstName()));
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    String str = sdf.format(new Date());
+
+    String[] hr=str.split(":");
+
+    int hr1=Integer.parseInt(hr[0]);
+
+    if(hr1<12)
+    {
+      welcomeText.setText(String.format("Good morning, %s!", ((MainActivity)
+          getActivity()).getFirstName()));
+    }else if(hr1>12&& hr1<17)
+    {
+      welcomeText.setText(String.format("Good afternoon, %s!", ((MainActivity)
+          getActivity()).getFirstName()));
+    }else if(hr1>17&& hr1<24)
+    {
+      welcomeText.setText(String.format("Good evening, %s!", ((MainActivity)
+          getActivity()).getFirstName()));
+    }
+//    welcomeText.setText(String.format("Welcome, %s!", ((MainActivity)
+//        getActivity()).getFirstName()));
     resume.setOnClickListener(this);
     new ResumePreviewGetter().execute();
     return welcome;
@@ -51,7 +73,7 @@ public class WelcomeScreenFragment extends Fragment implements OnClickListener {
     SingleResume singleResume = new SingleResume();
     singleResume.setArguments(bundle);
     getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
-        R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right)
+        R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
         .replace(R.id.fragment_container,
         singleResume).addToBackStack("String").commit();
     // No Animation

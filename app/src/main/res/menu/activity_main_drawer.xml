@@ -5,35 +5,41 @@
     <item
       android:id="@+id/home"
       android:icon="@drawable/home"
-      android:title="Home"/>
+      android:title="Home"
+      android:fontFamily="serif"/>
     <item
       android:id="@+id/my_resumes"
       android:icon="@drawable/ic_menu_myresumes"
-      android:title="My Resumes"/>
+      android:title="My Resumes"
+      android:fontFamily="serif"/>
     <item
     android:id="@+id/create_resume"
     android:icon="@drawable/create"
-    android:title="Create Resume"/>
+    android:title="Create Resume"
+      android:fontFamily="serif"/>
     <item
       android:id="@+id/upload_resume"
       android:icon="@drawable/resume_upload"
-      android:title="Upload Resume"/>
+      android:title="Upload Resume"
+      android:fontFamily="serif"/>
 
   </group>
 
-  <item android:title="Resources">
+  <item android:title="Resources"
+    android:fontFamily="serif">
     <menu>
       <item
         android:id="@+id/news"
         android:icon="@drawable/news"
-        android:title="News"/>
+        android:title="News"
+        android:fontFamily="serif"/>
 
       <item
         android:id="@+id/resume_create"
         android:icon="@drawable/resume_creation"
-        android:title="Resume Creation Tools"/>
+        android:title="Resume Creation Tools"
+        android:fontFamily="serif"/>
 
-        />
     </menu>
   </item>
 

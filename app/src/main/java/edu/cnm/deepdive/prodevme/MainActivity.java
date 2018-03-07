@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     // Everything that is commented out is the same replacement, but with no animation.
     if (id == R.id.home) {
       getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
-          R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right)
+          R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
           .replace(R.id.fragment_container,
           new WelcomeScreenFragment()).addToBackStack("String").commit();
 //      getSupportFragmentManager().beginTransaction()
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity
 //          .commit();
     } else if (id == R.id.my_resumes) {
       getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
-          R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right)
+          R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
           .replace(R.id.fragment_container,
           new ResumeViewer()).addToBackStack("String").commit();
 //      getSupportFragmentManager().beginTransaction()
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 //          .commit();
     } else if (id == R.id.create_resume) {
       getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
-          R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right)
+          R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
           .replace(R.id.fragment_container,
           new ResumeFragment()).addToBackStack("String").commit();
 //      getSupportFragmentManager().beginTransaction()

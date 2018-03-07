@@ -24,13 +24,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/nav_header_vertical_spacing"
-    android:text="Pro-Dev Me"
-    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+    android:text="@string/nav_header_title"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:fontFamily="serif"
+    style="@style/textShadow"/>
 
   <TextView
     android:id="@+id/textView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="For professionals,\nby professionals."/>
+    android:text="@string/nav_header_motto"
+    android:fontFamily="serif"
+    style="@style/textShadow"/>
 
 </LinearLayout>
