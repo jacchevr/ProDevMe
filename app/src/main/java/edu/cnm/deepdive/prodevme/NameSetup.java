@@ -1,6 +1,7 @@
 package edu.cnm.deepdive.prodevme;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ public class NameSetup extends Fragment implements OnClickListener {
   private Button clear;
   private Toast submitted;
   private Toast cleared;
+  private String resumePreview;
 
 
   public NameSetup() {
@@ -73,4 +75,5 @@ public class NameSetup extends Fragment implements OnClickListener {
       cleared.show();
     }
   }
+
 }

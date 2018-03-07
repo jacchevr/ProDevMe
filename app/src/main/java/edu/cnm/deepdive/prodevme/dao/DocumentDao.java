@@ -24,6 +24,12 @@ public interface DocumentDao {
   @Query("SELECT * FROM document WHERE id LIKE :id LIMIT 1")
   Document findById(int id);
 
+  @Query("SELECT substr(resume, 0, 200) FROM document ORDER BY id DESC LIMIT 1")
+  String getLastResume();
+
+  @Query("SELECT substr(resume, 0, 200) FROM document ORDER BY id DESC")
+  List<String> getAllResumes();
+
   @Insert
   long insert(Document document);
 }

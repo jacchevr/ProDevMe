@@ -20,8 +20,8 @@
     app:layout_constraintRight_toRightOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
 
-  <ScrollView
-    android:id="@+id/resumeScroll"
+  <ListView
+    android:id="@+id/resume_list"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
@@ -31,20 +31,9 @@
     app:layout_constraintLeft_toLeftOf="parent"
     app:layout_constraintRight_toRightOf="parent">
 
-    <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:height="200dp"
-      android:text="This is a test"
-      android:gravity="center"
-      android:outlineProvider="background"
-      android:textColor="#4f4f4f"
-      android:background="#e3e3e3"
-      android:textAlignment="center"
-      android:layout_marginLeft="60dp"
-      android:layout_marginRight="60dp"/>
 
-  </ScrollView>
+
+  </ListView>
 
 
 

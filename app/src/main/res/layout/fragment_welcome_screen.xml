@@ -15,7 +15,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:scaleType="fitXY"
-    app:srcCompat="@drawable/background4"/>
+    app:srcCompat="@drawable/background5"/>
 
   <!--<ScrollView-->
     <!--android:layout_width="0dp"-->
@@ -33,15 +33,55 @@
       android:textStyle="italic|bold"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="120dp"
+      android:paddingTop="40dp"
       android:fontFamily="serif"
       android:text="Welcome,\nprofessional!"
       android:textAlignment="center"
-      android:textColor="#4f4f4f"
+      android:textColor="#000000"
       android:textSize="30sp"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent"/>
+      app:layout_constraintTop_toTopOf="parent"
+      style="@style/AudioFileInfoOverlayText"/>
+
+  <TextView
+    android:id="@+id/resumePreviewMessage"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="Here's the last thing\nyou worked on:"
+    style="@style/AudioFileInfoOverlayText"
+    android:textStyle="italic|bold"
+    android:layout_marginTop="50dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:fontFamily="serif"
+    android:textAlignment="center"
+    android:textColor="#000000"
+    android:textSize="20sp"
+    app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"/>
+
+  <TextView
+    android:id="@+id/resumePreview"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textStyle="italic|bold"
+    android:layout_marginTop="20dp"
+    android:background="#cecece"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
+    android:paddingLeft="15dp"
+    android:paddingBottom="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
+    android:fontFamily="serif"
+    android:text="Looks like you haven't created anything yet!"
+    app:layout_constraintTop_toBottomOf="@+id/resumePreviewMessage"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintLeft_toLeftOf="parent"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp"/>
 
 
 

@@ -106,8 +106,14 @@ public class MainActivity extends AppCompatActivity
     // Handle navigation view item clicks here.
     int id = item.getItemId();
 
-    if (id == R.id.my_resumes) {
-      // Handle the camera action
+    if (id == R.id.home) {
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.fragment_container, new WelcomeScreenFragment())
+          .commit();
+    } else if (id == R.id.my_resumes) {
+      getSupportFragmentManager().beginTransaction()
+          .replace(R.id.fragment_container, new ResumeViewer())
+          .commit();
     } else if (id == R.id.create_resume) {
       getSupportFragmentManager().beginTransaction()
           .replace(R.id.fragment_container, new ResumeFragment())
