@@ -105,19 +105,31 @@ public class MainActivity extends AppCompatActivity
   public boolean onNavigationItemSelected(MenuItem item) {
     // Handle navigation view item clicks here.
     int id = item.getItemId();
-
+    // Everything that is commented out is the same replacement, but with no animation.
     if (id == R.id.home) {
-      getSupportFragmentManager().beginTransaction()
-          .replace(R.id.fragment_container, new WelcomeScreenFragment())
-          .commit();
+      getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
+          R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right)
+          .replace(R.id.fragment_container,
+          new WelcomeScreenFragment()).addToBackStack("String").commit();
+//      getSupportFragmentManager().beginTransaction()
+//          .replace(R.id.fragment_container, new WelcomeScreenFragment())
+//          .commit();
     } else if (id == R.id.my_resumes) {
-      getSupportFragmentManager().beginTransaction()
-          .replace(R.id.fragment_container, new ResumeViewer())
-          .commit();
+      getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
+          R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right)
+          .replace(R.id.fragment_container,
+          new ResumeViewer()).addToBackStack("String").commit();
+//      getSupportFragmentManager().beginTransaction()
+//          .replace(R.id.fragment_container, new ResumeViewer())
+//          .commit();
     } else if (id == R.id.create_resume) {
-      getSupportFragmentManager().beginTransaction()
-          .replace(R.id.fragment_container, new ResumeFragment())
-          .commit();
+      getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
+          R.anim.slide_out_right, R.anim.slide_out_left, R.anim.slide_in_right)
+          .replace(R.id.fragment_container,
+          new ResumeFragment()).addToBackStack("String").commit();
+//      getSupportFragmentManager().beginTransaction()
+//          .replace(R.id.fragment_container, new ResumeFragment())
+//          .commit();
 
     } else if (id == R.id.upload_resume) {
 

@@ -2,12 +2,43 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="edu.cnm.deepdive.prodevme.SingleResume">
+  tools:context="edu.cnm.deepdive.prodevme.SingleResume"
+  android:paddingTop="?attr/actionBarSize">
 
-  <!-- TODO: Update blank fragment layout -->
-  <TextView
+  <ScrollView
+    android:id="@+id/scroller"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="@string/hello_blank_fragment"/>
+    android:layout_height="match_parent">
 
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp">
+
+  <TextView
+    android:id="@+id/industry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="30sp"
+    android:layout_marginTop="20dp"
+    android:fontFamily="serif"/>
+
+    <TextView
+      android:id="@+id/profession"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="25sp"
+      android:layout_marginTop="15dp"
+      android:fontFamily="serif"/>
+
+    <TextView
+      android:id="@+id/resume"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_margin="20dp"/>
+
+  </LinearLayout>
+  </ScrollView>
 </FrameLayout>

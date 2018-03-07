@@ -74,5 +74,5 @@ public class Document {
   public void setUserId(long userId) { this.userId = userId; }
 
   @Override
-  public String toString() { return String.format("%s in %s%n%s", profession, industry, resume);}
+  public String toString() { return String.format("%s...",resume);}
 }

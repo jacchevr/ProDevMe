@@ -21,14 +21,14 @@ public interface DocumentDao {
   @Query("SELECT * FROM document WHERE industry LIKE :industry LIMIT 1")
   Document findByIndustry(String industry);
 
-  @Query("SELECT * FROM document WHERE id LIKE :id LIMIT 1")
-  Document findById(int id);
+  @Query("SELECT * FROM document WHERE id = :id LIMIT 1")
+  Document findById(long id);
 
-  @Query("SELECT substr(resume, 0, 200) FROM document ORDER BY id DESC LIMIT 1")
-  String getLastResume();
+  @Query("SELECT id, user_id, substr(resume, 0, 200) AS resume FROM document ORDER BY id DESC LIMIT 1")
+  Document getLastResume();
 
-  @Query("SELECT substr(resume, 0, 200) FROM document ORDER BY id DESC")
-  List<String> getAllResumes();
+  @Query("SELECT id, user_id, substr(resume, 0, 200) AS resume FROM document ORDER BY id DESC")
+  List<Document> getAllResumes();
 
   @Insert
   long insert(Document document);

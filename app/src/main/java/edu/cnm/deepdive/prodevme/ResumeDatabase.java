@@ -8,7 +8,7 @@ import edu.cnm.deepdive.prodevme.dao.UserDao;
 import edu.cnm.deepdive.prodevme.models.Document;
 import edu.cnm.deepdive.prodevme.models.User;
 
-@Database(entities = {Document.class, User.class}, version = 1)
+@Database(entities = {Document.class, User.class}, version = 1, exportSchema = true)
 public abstract class ResumeDatabase extends RoomDatabase {
 
   public abstract DocumentDao documentDao();

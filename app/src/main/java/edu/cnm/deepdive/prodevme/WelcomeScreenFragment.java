@@ -6,18 +6,23 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import edu.cnm.deepdive.prodevme.models.Document;
 import org.w3c.dom.Text;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WelcomeScreenFragment extends Fragment {
+public class WelcomeScreenFragment extends Fragment implements OnClickListener {
 
 
   private TextView resume;
+  private Document document;
 
   public WelcomeScreenFragment() {
     // Required empty public constructor
@@ -33,19 +38,37 @@ public class WelcomeScreenFragment extends Fragment {
     resume = welcome.findViewById(R.id.resumePreview);
     welcomeText.setText(String.format("Welcome, %s!", ((MainActivity)
         getActivity()).getFirstName()));
+    resume.setOnClickListener(this);
     new ResumePreviewGetter().execute();
     return welcome;
   }
 
-  public class ResumePreviewGetter extends AsyncTask<String, String, String> {
+  @Override
+  public void onClick(View v) {
+    long documentId = document.getId();
+    Bundle bundle = new Bundle();
+    bundle.putLong(SingleResume.DOCUMENT_KEY, documentId);
+    SingleResume singleResume = new SingleResume();
+    singleResume.setArguments(bundle);
+    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
+        R.anim.slide_out_right, R.anim.slide_in_left, R.anim.slide_out_right)
+        .replace(R.id.fragment_container,
+        singleResume).addToBackStack("String").commit();
+    // No Animation
+//    getFragmentManager().beginTransaction().replace
+//        (R.id.fragment_container, singleResume).addToBackStack("String").commit();
+  }
+
+  public class ResumePreviewGetter extends AsyncTask<String, String, Document> {
 
     @Override
-    protected String doInBackground(String[] objects) {
+    protected Document doInBackground(String[] objects) {
       return ((MainActivity) getActivity()).getDatabase().documentDao().getLastResume();
     }
 
     @Override
-    protected void onPostExecute(String preview) {
+    protected void onPostExecute(Document preview) {
+      document = preview;
       if (preview != null) {
         resume.setText(String.format("%s...", preview));
       }
