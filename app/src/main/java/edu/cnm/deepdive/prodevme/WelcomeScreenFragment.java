@@ -58,8 +58,7 @@ public class WelcomeScreenFragment extends Fragment implements OnClickListener {
     // If non alternating welcome message is wanted. This will display "Welcome, (firstName)".
 //    welcomeText.setText(String.format("Welcome, %s!", ((MainActivity)
 //        getActivity()).getFirstName()));
-//    resume.setOnClickListener(this);
-//    new ResumePreviewGetter().execute();
+    new ResumePreviewGetter().execute();
     return welcome;
   }
 
@@ -91,6 +90,7 @@ public class WelcomeScreenFragment extends Fragment implements OnClickListener {
       document = preview;
       if (preview != null) {
         resume.setText(String.format("%s...", preview));
+        resume.setOnClickListener(WelcomeScreenFragment.this);
       }
     }
   }

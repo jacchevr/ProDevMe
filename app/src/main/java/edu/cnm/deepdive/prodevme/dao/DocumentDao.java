@@ -24,10 +24,10 @@ public interface DocumentDao {
   @Query("SELECT * FROM document WHERE id = :id LIMIT 1")
   Document findById(long id);
 
-  @Query("SELECT id, user_id, substr(resume, 0, 200) AS resume FROM document ORDER BY id DESC LIMIT 1")
+  @Query("SELECT id, user_id, substr(resume, 0, 100) AS resume FROM document ORDER BY id DESC LIMIT 1")
   Document getLastResume();
 
-  @Query("SELECT id, user_id, substr(resume, 0, 200) AS resume FROM document ORDER BY id DESC")
+  @Query("SELECT id, user_id, substr(resume, 0, 100) AS resume FROM document ORDER BY id DESC")
   List<Document> getAllResumes();
 
   @Insert

@@ -2,6 +2,7 @@ package edu.cnm.deepdive.prodevme;
 
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,6 +18,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
+
+  public static final String USER_ID_KEY = "user_id";
+  public static final String USER_NAME_KEY = "user_name";
 
   private ResumeDatabase rDatabase;
   private long userId;
@@ -47,23 +51,30 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
-    new Thread(new Runnable() {
-      @Override
-      public void run() {
-        List<User> userList = getDatabase().userDao().getAll();
-        if (userList.isEmpty()){
-          getSupportFragmentManager().beginTransaction()
-              .replace(R.id.fragment_container, new NameSetup())
-              .commit();
-        } else {
-          setUserId(userList.get(0).getId());
-          setFirstName(userList.get(0).getFirstName());
-          getSupportFragmentManager().beginTransaction()
+    Intent intent = getIntent();
+    userId = intent.getLongExtra(USER_ID_KEY, 0);
+    firstName = intent.getStringExtra(USER_NAME_KEY);
+    getSupportFragmentManager().beginTransaction()
               .replace(R.id.fragment_container, new WelcomeScreenFragment())
               .commit();
-        }
-      }
-    }).start();
+
+//    new Thread(new Runnable() {
+//      @Override
+//      public void run() {
+//        List<User> userList = getDatabase().userDao().getAll();
+//        if (userList.isEmpty()){
+//          getSupportFragmentManager().beginTransaction()
+//              .replace(R.id.fragment_container, new NameSetup())
+//              .commit();
+//        } else {
+//          setUserId(userList.get(0).getId());
+//          setFirstName(userList.get(0).getFirstName());
+//          getSupportFragmentManager().beginTransaction()
+//              .replace(R.id.fragment_container, new WelcomeScreenFragment())
+//              .commit();
+//        }
+//      }
+//    }).start();
 
 
   }
@@ -132,7 +143,10 @@ public class MainActivity extends AppCompatActivity
 //          .commit();
 
     } else if (id == R.id.upload_resume) {
-
+      getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
+          R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
+          .replace(R.id.fragment_container,
+              new ResumeUploader()).addToBackStack("String").commit();
     } else if (id == R.id.news) {
 
     } else if (id == R.id.resume_create) {
@@ -145,11 +159,7 @@ public class MainActivity extends AppCompatActivity
   }
 
   public ResumeDatabase getDatabase() {
-    if (rDatabase == null){
-      rDatabase = Room.databaseBuilder
-          (getApplicationContext(), ResumeDatabase.class, "document").build();
-    }
-    return rDatabase;
+    return ResumeDatabase.getInstance(this);
   }
 
   public long getUserId() {

@@ -19,6 +19,7 @@ import edu.cnm.deepdive.prodevme.models.User;
  */
 public class ResumeFragment extends Fragment implements OnClickListener {
 
+  public static final String RESUME_TEXT_KEY = "resumeTextKey";
   private View view;
   private Button submit;
   private Button clear;
@@ -43,7 +44,15 @@ public class ResumeFragment extends Fragment implements OnClickListener {
     submitted = Toast.makeText(getActivity(), "Your information has been "
         + "stored!",Toast.LENGTH_SHORT);
     cleared = Toast.makeText(getActivity(), "Cleared!",Toast.LENGTH_SHORT);
-
+    if (getArguments() != null && getArguments().containsKey(RESUME_TEXT_KEY)){
+      StringBuilder stringBuilder = new StringBuilder();
+      String[] lines = getArguments().getStringArray(RESUME_TEXT_KEY);
+      for (int i = 0; i < lines.length; i++) {
+        stringBuilder.append(lines[i]);
+        stringBuilder.append("\n");
+      }
+      ((EditText) view.findViewById(R.id.resumeInsert)).setText(stringBuilder.toString());
+    }
     return view;
   }
 

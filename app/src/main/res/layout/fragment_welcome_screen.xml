@@ -29,6 +29,7 @@
   <!--app:layout_constraintTop_toTopOf="parent"-->
   <!--app:layout_constraintVertical_bias="0.0">-->
 
+
   <TextView
     android:id="@+id/welcomeMessage"
     android:textStyle="italic|bold"
@@ -45,9 +46,19 @@
     app:layout_constraintTop_toTopOf="parent"
     style="@style/textShadow"/>
 
+  <!--<ScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/welcomeMessage">-->
+
+    <!--<LinearLayout-->
+      <!--android:layout_width="match_parent"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:orientation="vertical">-->
+
   <TextView
     android:id="@+id/resumePreviewMessage"
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/welcome_preview_message"
     style="@style/textShadow"
@@ -65,17 +76,15 @@
 
   <TextView
     android:id="@+id/resumePreview"
-    android:layout_width="0dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textStyle="italic|bold"
     android:layout_marginTop="20dp"
     android:background="#cecece"
-    android:layout_marginLeft="40dp"
-    android:layout_marginRight="40dp"
     android:paddingLeft="15dp"
     android:paddingBottom="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="15dp"
+    android:paddingTop="10dp"
     android:fontFamily="serif"
     android:text="@string/welcome_resume_preview"
     app:layout_constraintTop_toBottomOf="@+id/resumePreviewMessage"
@@ -84,5 +93,6 @@
     android:layout_marginStart="40dp"
     android:layout_marginEnd="40dp"/>
 
-
+  <!--</LinearLayout>-->
+<!--</ScrollView>-->
 </android.support.constraint.ConstraintLayout>
