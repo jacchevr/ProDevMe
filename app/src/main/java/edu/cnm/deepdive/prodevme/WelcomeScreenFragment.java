@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import edu.cnm.deepdive.prodevme.models.Document;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import org.w3c.dom.Text;
 
@@ -38,30 +39,27 @@ public class WelcomeScreenFragment extends Fragment implements OnClickListener {
     View welcome = inflater.inflate(R.layout.fragment_welcome_screen, container, false);
     TextView welcomeText = welcome.findViewById(R.id.welcomeMessage);
     resume = welcome.findViewById(R.id.resumePreview);
-    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-    String str = sdf.format(new Date());
+    Calendar calendar = Calendar.getInstance();
+    int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
-    String[] hr=str.split(":");
-
-    int hr1=Integer.parseInt(hr[0]);
-
-    if(hr1<12)
+    if(hour<12)
     {
       welcomeText.setText(String.format("Good morning, %s!", ((MainActivity)
           getActivity()).getFirstName()));
-    }else if(hr1>12&& hr1<17)
+    }else if(hour<17)
     {
       welcomeText.setText(String.format("Good afternoon, %s!", ((MainActivity)
           getActivity()).getFirstName()));
-    }else if(hr1>17&& hr1<24)
+    }else
     {
       welcomeText.setText(String.format("Good evening, %s!", ((MainActivity)
           getActivity()).getFirstName()));
     }
+    // If non alternating welcome message is wanted. This will display "Welcome, (firstName)".
 //    welcomeText.setText(String.format("Welcome, %s!", ((MainActivity)
 //        getActivity()).getFirstName()));
-    resume.setOnClickListener(this);
-    new ResumePreviewGetter().execute();
+//    resume.setOnClickListener(this);
+//    new ResumePreviewGetter().execute();
     return welcome;
   }
 
