@@ -1,8 +1,10 @@
 package edu.cnm.deepdive.prodevme.dao;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 import edu.cnm.deepdive.prodevme.models.Document;
 import java.util.List;
 
@@ -30,6 +32,12 @@ public interface DocumentDao {
   @Query("SELECT id, user_id, substr(resume, 0, 100) AS resume FROM document ORDER BY id DESC")
   List<Document> getAllResumes();
 
+  @Update
+  int update(Document document);
+
   @Insert
   long insert(Document document);
+
+  @Delete
+  int delete(Document document);
 }
