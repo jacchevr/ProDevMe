@@ -31,7 +31,6 @@ public abstract class ResumeDatabase extends RoomDatabase {
   }
 
   private static class Callback extends RoomDatabase.Callback {
-
     private Context context;
 
     private Callback(Context context){
