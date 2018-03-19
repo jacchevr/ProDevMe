@@ -3,7 +3,6 @@ package edu.cnm.deepdive.prodevme;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,24 +13,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.prodevme.ConfirmDeletion.OnDeleteListener;
 import edu.cnm.deepdive.prodevme.models.Document;
+import us.feras.mdv.MarkdownView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SingleResume extends Fragment implements OnClickListener {
+public class MarkDownViewer extends Fragment implements OnClickListener {
 
 
   public static final String DOCUMENT_KEY = "documentId";
   private View single;
   private Button edit;
   private Button delete;
-  private Button markdown;
   private Document document;
   private Toast deleted;
-  private FloatingActionButton fab;
 
-  public SingleResume() {
+  public MarkDownViewer() {
     // Required empty public constructor
   }
 
@@ -39,16 +37,13 @@ public class SingleResume extends Fragment implements OnClickListener {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    single = inflater.inflate(R.layout.fragment_single_resume, container, false);
+    single = inflater.inflate(R.layout.fragment_mark_down_viewer, container, false);
     new OneResume().execute();
+    MarkdownView markdownView = (MarkdownView) single.findViewById(R.id.resume);
     edit = (Button) single.findViewById(R.id.edit);
     edit.setOnClickListener(this);
     delete = (Button) single.findViewById(R.id.delete_button);
     delete.setOnClickListener(this);
-//    markdown = (Button) single.findViewById(R.id.markdown_viewer);
-//    markdown.setOnClickListener(this);
-    fab = (FloatingActionButton) single.findViewById(R.id.fab);
-    fab.setOnClickListener(this);
     deleted = Toast.makeText(getActivity(), "Resume Deleted", Toast.LENGTH_SHORT);
     return single;
   }
@@ -64,7 +59,7 @@ public class SingleResume extends Fragment implements OnClickListener {
           R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
           .replace(R.id.fragment_container,
               fragmentResumeEdit).addToBackStack("String").commit();
-    } else if (v.getId() == delete.getId()){
+    } else {
       ConfirmDeletion confirmDelete = new ConfirmDeletion();
       confirmDelete.setDocument(document);
       confirmDelete.setOnDeleteListener(new OnDeleteListener() {
@@ -78,13 +73,6 @@ public class SingleResume extends Fragment implements OnClickListener {
         }
       });
       confirmDelete.show(getFragmentManager(), "dialog");
-    } else {
-      MarkDownViewer fragment = new MarkDownViewer();
-      fragment.setArguments(getArguments());
-      getFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,
-          R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
-          .replace(R.id.fragment_container,
-              fragment).addToBackStack("String").commit();
     }
   }
 
@@ -101,7 +89,7 @@ public class SingleResume extends Fragment implements OnClickListener {
       document = show;
       ((TextView)single.findViewById(R.id.industry)).setText(show.getIndustry());
       ((TextView)single.findViewById(R.id.profession)).setText(show.getProfession());
-      ((TextView)single.findViewById(R.id.resume)).setText(show.getResume());
+      ((MarkdownView)single.findViewById(R.id.resume)).loadMarkdown(show.getResume());
     }
   }
 
