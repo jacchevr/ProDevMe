@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:id="@+id/edit_resume"
+    android:title="Edit"
+    app:showAsAction="ifRoom"
+    android:icon="@android:drawable/ic_menu_edit"/>
+
+  <item
+    android:id="@+id/delete_resume"
+    android:title="Delete"
+    app:showAsAction="ifRoom"
+    android:icon="@android:drawable/ic_delete"/>
+
+  <item
+    android:id="@+id/menu_item_share"
+    android:title="Share"
+    app:showAsAction="always"
+    android:icon="@android:drawable/ic_menu_share"
+    android:actionProviderClass=
+      "android.widget.ShareActionProvider" />
+
+</menu>

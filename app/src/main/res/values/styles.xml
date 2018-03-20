@@ -17,10 +17,21 @@
 
   <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-  <style name="textShadow">
+  <style name="white_text_shadow">
     <item name="android:paddingLeft">7px</item>
     <item name="android:paddingBottom">7px</item>
     <item name="android:textColor">#ffffffff</item>
+    <item name="android:textSize">12sp</item>
+    <item name="android:shadowColor">#000000</item>
+    <item name="android:shadowDx">1</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:shadowRadius">1</item>
+  </style>
+
+  <style name="black_text_shadow">
+    <item name="android:paddingLeft">4px</item>
+    <item name="android:paddingBottom">4px</item>
+    <item name="android:textColor">#cecece</item>
     <item name="android:textSize">12sp</item>
     <item name="android:shadowColor">#000000</item>
     <item name="android:shadowDx">1</item>

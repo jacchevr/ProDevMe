@@ -5,6 +5,19 @@
   tools:context="edu.cnm.deepdive.prodevme.SingleResume"
   android:paddingTop="?attr/actionBarSize">
 
+  <android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end|bottom"
+      android:src="@drawable/eye"
+      android:layout_margin="16dp"
+      android:backgroundTint="#4CE3F8"/>
+
   <ScrollView
     android:id="@+id/scroller"
     android:layout_width="match_parent"
@@ -16,6 +29,19 @@
       android:orientation="vertical"
       android:layout_marginRight="20dp"
       android:layout_marginLeft="20dp">
+
+      <!--<TextView-->
+        <!--android:id="@+id/welcome"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="4dp"-->
+        <!--android:layout_marginRight="4dp"-->
+        <!--android:text="Plain Text View"-->
+        <!--style="@style/black_text_shadow"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textSize="35sp"-->
+        <!--android:fontFamily="serif"-->
+        <!--tools:layout_editor_absoluteX="8dp"/>-->
 
   <TextView
     android:id="@+id/industry"
@@ -39,39 +65,30 @@
       android:layout_height="wrap_content"
       android:layout_margin="20dp"/>
 
-      <Button
-        android:id="@+id/edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Edit Resume"/>
+      <!--<Button-->
+        <!--android:id="@+id/edit"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:text="Edit Resume"/>-->
 
-      <Button
-      android:id="@+id/markdown_viewer"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="Markdown Viewer"
-        android:background="#4CE3F8"/>
+      <!--<Button-->
+      <!--android:id="@+id/markdown_viewer"-->
+      <!--android:layout_width="match_parent"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:text="Markdown Viewer"-->
+        <!--android:background="#4CE3F8"/>-->
 
-      <Button
-        android:id="@+id/delete_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete Resume"
-        android:background="#fb2828"
-        android:layout_marginTop="15dp"/>
-
-      <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/eye"
-        android:layout_margin="16dp"
-        android:background="#4CE3F8"/>
-
-
+      <!--<Button-->
+        <!--android:id="@+id/delete_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Delete Resume"-->
+        <!--android:background="#fb2828"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_marginBottom="80dp"/>-->
 
   </LinearLayout>
   </ScrollView>
+  </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>

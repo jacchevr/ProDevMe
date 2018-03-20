@@ -27,7 +27,7 @@
     android:text="@string/nav_header_title"
     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
     android:fontFamily="serif"
-    style="@style/textShadow"/>
+    style="@style/white_text_shadow"/>
 
   <TextView
     android:id="@+id/textView"
@@ -35,6 +35,6 @@
     android:layout_height="wrap_content"
     android:text="@string/nav_header_motto"
     android:fontFamily="serif"
-    style="@style/textShadow"/>
+    style="@style/white_text_shadow"/>
 
 </LinearLayout>
