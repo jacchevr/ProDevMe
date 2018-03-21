@@ -37,6 +37,7 @@ public class SingleResume extends Fragment implements OnClickListener {
   private Toast deleted;
   private FloatingActionButton fab;
   private Toast markdownView;
+  String wholeDocument;
 
   public SingleResume() {
     // Required empty public constructor
@@ -131,11 +132,19 @@ public class SingleResume extends Fragment implements OnClickListener {
       });
       confirmDelete.show(getFragmentManager(), "dialog");
     } else {
+      // For PDF
+//      Intent shareIntent = new Intent();
+//      shareIntent.setAction(Intent.ACTION_SEND);
+//      shareIntent.putExtra(Intent.EXTRA_STREAM, "This is a test");
+//      shareIntent.setType("application/pdf");
+//      startActivity(Intent.createChooser(shareIntent, "Share"));
+      String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
+          "\n" + (document.getResume());
       Intent shareIntent = new Intent();
       shareIntent.setAction(Intent.ACTION_SEND);
-      shareIntent.putExtra(Intent.EXTRA_STREAM, "This is a test");
-      shareIntent.setType("application/pdf");
-      startActivity(shareIntent);
+      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
+      shareIntent.setType("text/plain");
+      startActivity(Intent.createChooser(shareIntent, "Share"));
     }
     return super.onOptionsItemSelected(item);
   }
