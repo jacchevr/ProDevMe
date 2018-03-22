@@ -1,9 +1,14 @@
 package edu.cnm.deepdive.prodevme;
 
 
+import static android.support.v4.content.FileProvider.getUriForFile;
+
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract.Directory;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,6 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.prodevme.ConfirmDeletion.OnDeleteListener;
 import edu.cnm.deepdive.prodevme.models.Document;
+import edu.cnm.deepdive.prodevme.utility.MarkdownSharing;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 /**
@@ -37,7 +49,6 @@ public class SingleResume extends Fragment implements OnClickListener {
   private Toast deleted;
   private FloatingActionButton fab;
   private Toast markdownView;
-  String wholeDocument;
 
   public SingleResume() {
     // Required empty public constructor
@@ -132,19 +143,34 @@ public class SingleResume extends Fragment implements OnClickListener {
       });
       confirmDelete.show(getFragmentManager(), "dialog");
     } else {
-      // For PDF
-//      Intent shareIntent = new Intent();
-//      shareIntent.setAction(Intent.ACTION_SEND);
-//      shareIntent.putExtra(Intent.EXTRA_STREAM, "This is a test");
-//      shareIntent.setType("application/pdf");
-//      startActivity(Intent.createChooser(shareIntent, "Share"));
       String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
-          "\n" + (document.getResume());
+        "\n" + (document.getResume());
+      File textFilePath = new File(getActivity().getFilesDir(), "export_resumes");
+      File newFile = new File(textFilePath, "resume_" + document.getId() + ".txt");
+      textFilePath.mkdirs();
+      try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
+        writer.write(wholeDocument);
+        writer.close();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      // For PDF
+       Uri contentUri = getUriForFile
+                (getContext(), "edu.cnm.deepdive.prodeveme.fileprovider", newFile);
       Intent shareIntent = new Intent();
       shareIntent.setAction(Intent.ACTION_SEND);
-      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
+      shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
       shareIntent.setType("text/plain");
       startActivity(Intent.createChooser(shareIntent, "Share"));
+
+      // For plain text
+//      Intent shareIntent = new Intent();
+//      shareIntent.setAction(Intent.ACTION_SEND);
+//      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
+//      shareIntent.setType("text/plain");
+//      startActivity(Intent.createChooser(shareIntent, "Share"));
     }
     return super.onOptionsItemSelected(item);
   }
