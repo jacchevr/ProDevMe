@@ -2,6 +2,7 @@ package edu.cnm.deepdive.prodevme;
 
 
 import static android.support.v4.content.FileProvider.getUriForFile;
+import static android.support.v4.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.prodevme.ConfirmDeletion.OnDeleteListener;
+import edu.cnm.deepdive.prodevme.ExportType.OnShareListener;
 import edu.cnm.deepdive.prodevme.models.Document;
 import edu.cnm.deepdive.prodevme.utility.MarkdownSharing;
 import java.io.BufferedWriter;
@@ -49,6 +51,11 @@ public class SingleResume extends Fragment implements OnClickListener {
   private Toast deleted;
   private FloatingActionButton fab;
   private Toast markdownView;
+  private Toast shared;
+
+  public Document getDocument() {
+    return document;
+  }
 
   public SingleResume() {
     // Required empty public constructor
@@ -71,6 +78,7 @@ public class SingleResume extends Fragment implements OnClickListener {
     fab.setOnClickListener(this);
     deleted = Toast.makeText(getActivity(), "Resume Deleted", Toast.LENGTH_SHORT);
     markdownView = Toast.makeText(getActivity(), "Markdown View", Toast.LENGTH_LONG);
+    shared = Toast.makeText(getActivity(), "Shared!", Toast.LENGTH_SHORT);
     return single;
   }
 
@@ -143,36 +151,56 @@ public class SingleResume extends Fragment implements OnClickListener {
       });
       confirmDelete.show(getFragmentManager(), "dialog");
     } else {
-      String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
-        "\n" + (document.getResume());
-      File textFilePath = new File(getActivity().getFilesDir(), "export_resumes");
-      File newFile = new File(textFilePath, "resume_" + document.getId() + ".txt");
-      textFilePath.mkdirs();
-      try {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
-        writer.write(wholeDocument);
-        writer.close();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
+      final String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
+          "\n" + (document.getResume());
+      final File textFilePath = new File(getActivity().getFilesDir(), "export_resumes");
+      ExportType exportType = new ExportType();
+      exportType.setOnShareListener(new OnShareListener() {
+        @Override
+        public void shareText() {
+          File newFile = new File(textFilePath, "resume_" + document.getId() + ".txt");
+          textFilePath.mkdirs();
+          try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
+            writer.write(wholeDocument);
+            writer.close();
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
 
-      // For PDF
-       Uri contentUri = getUriForFile
-                (getContext(), "edu.cnm.deepdive.prodeveme.fileprovider", newFile);
-      Intent shareIntent = new Intent();
-      shareIntent.setAction(Intent.ACTION_SEND);
-      shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-      shareIntent.setType("text/plain");
-      startActivity(Intent.createChooser(shareIntent, "Share"));
+          Uri contentUri = getUriForFile
+              (getContext(), "edu.cnm.deepdive.prodeveme.fileprovider", newFile);
+          Intent shareIntent = new Intent();
+          shareIntent.setAction(Intent.ACTION_SEND);
+          shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+          shareIntent.setType("text/plain");
+          startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
+        }
 
-      // For plain text
+        @Override
+        public void sharePdf() {
+
+        }
+      });
+
+
+
+        // For plain text
 //      Intent shareIntent = new Intent();
 //      shareIntent.setAction(Intent.ACTION_SEND);
 //      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
 //      shareIntent.setType("text/plain");
 //      startActivity(Intent.createChooser(shareIntent, "Share"));
+      exportType.show(getFragmentManager(), "dialog");
+      }
+      return super.onOptionsItemSelected(item);
     }
-    return super.onOptionsItemSelected(item);
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (resultCode == RESULT_OK) {
+      shared.show();
+    }
   }
 
   @Override

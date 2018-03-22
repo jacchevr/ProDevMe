@@ -30,4 +30,12 @@
   <string name="resume_creator_resume">Insert your resume here:</string>
 
   <string name="resume_viewer_message">Here are your resumes!</string>
+
+  <string-array name="export_options">
+    <item name="plain_text">Plain Text</item>
+    <item name="pdf">PDF</item>
+  </string-array>
+
+  <string name="ok">Ok</string>
+  <string name="cancel">Cancel</string>
 </resources>

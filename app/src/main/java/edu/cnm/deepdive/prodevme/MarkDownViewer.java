@@ -1,6 +1,11 @@
 package edu.cnm.deepdive.prodevme;
 
 
+import static android.support.v4.content.FileProvider.getUriForFile;
+import static android.support.v4.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +22,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.prodevme.ConfirmDeletion.OnDeleteListener;
+import edu.cnm.deepdive.prodevme.ExportType.OnShareListener;
 import edu.cnm.deepdive.prodevme.models.Document;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import us.feras.mdv.MarkdownView;
 
 
@@ -28,6 +44,8 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
 
 
   public static final String DOCUMENT_KEY = "documentId";
+  private static final MediaType MEDIA_TYPE_TEXT = MediaType.parse("text/plain");
+
   private View single;
   private Button edit;
   private Button delete;
@@ -35,6 +53,9 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
   private Toast deleted;
   private FloatingActionButton fab;
   private Toast text;
+  private Toast shared;
+  private File newFile;
+  private Uri contentUri;
 
   public MarkDownViewer() {
     // Required empty public constructor
@@ -56,6 +77,7 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
     fab.setOnClickListener(this);
     deleted = Toast.makeText(getActivity(), "Resume Deleted", Toast.LENGTH_SHORT);
     text = Toast.makeText(getActivity(), "Plain Text View", Toast.LENGTH_SHORT);
+    shared = Toast.makeText(getActivity(), "Shared!", Toast.LENGTH_SHORT);
     return single;
   }
 
@@ -126,11 +148,60 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
         }
       });
       confirmDelete.show(getFragmentManager(), "dialog");
+    } else {
+      final String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
+          "\n" + (document.getResume());
+      final File textFilePath = new File(getActivity().getFilesDir(), "export_resumes");
+      ExportType exportType = new ExportType();
+      newFile = new File(textFilePath, "resume_" + document.getId() + ".txt");
+      textFilePath.mkdirs();
+      try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
+        writer.write(wholeDocument);
+        writer.close();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      contentUri = getUriForFile
+          (getContext(), "edu.cnm.deepdive.prodeveme.fileprovider", newFile);
+      exportType.setOnShareListener(new OnShareListener() {
+        @Override
+        public void shareText() {
+          Intent shareIntent = new Intent();
+          shareIntent.setAction(Intent.ACTION_SEND);
+          shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+          shareIntent.setType("text/plain");
+          startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
+        }
+
+        @Override
+        public void sharePdf() {
+            new Pdf().execute();
+        }
+      });
+
+
+
+      // For plain text
+//      Intent shareIntent = new Intent();
+//      shareIntent.setAction(Intent.ACTION_SEND);
+//      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
+//      shareIntent.setType("text/plain");
+//      startActivity(Intent.createChooser(shareIntent, "Share"));
+      exportType.show(getFragmentManager(), "dialog");
     }
-      return super.onOptionsItemSelected(item);
+    return super.onOptionsItemSelected(item);
   }
 
-    @Override
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (resultCode == RESULT_OK) {
+      shared.show();
+    }
+  }
+
+  @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
       // Inflate the menu; this adds items to the action bar if it is present.
       inflater.inflate(R.menu.resume_menu, menu);
@@ -151,6 +222,44 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
         ((TextView) single.findViewById(R.id.industry)).setText(show.getIndustry());
         ((TextView) single.findViewById(R.id.profession)).setText(show.getProfession());
         ((MarkdownView) single.findViewById(R.id.resume)).loadMarkdown(show.getResume());
+      }
+    }
+
+    private class Pdf extends AsyncTask<Object, Object, Object> {
+
+      public static final String MARKDOWN_URL = "http://www.markdowntopdf.com/app/download/";
+
+      @Override
+      protected Object doInBackground(Object... objects) {
+        OkHttpClient client = new OkHttpClient();
+
+        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("file", newFile.getName(),
+                RequestBody.create(MEDIA_TYPE_TEXT, newFile))
+            .build();
+
+        Request request = new Request.Builder().url("http://www.markdowntopdf.com/app/upload")
+            .post(requestBody).build();
+
+        Response response = null;
+        try {
+          response = client.newCall(request).execute();
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+        if (!response.isSuccessful()) {
+          try {
+            throw new IOException("Unexpected code " + response);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, MARKDOWN_URL );
+        shareIntent.setType("application/pdf");
+        startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
+        return null;
       }
     }
 }
