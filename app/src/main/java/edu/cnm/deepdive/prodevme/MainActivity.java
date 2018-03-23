@@ -1,6 +1,11 @@
 package edu.cnm.deepdive.prodevme;
 
+import static android.support.v4.content.FileProvider.getUriForFile;
+import static android.support.v4.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
+
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,17 +13,45 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
+import edu.cnm.deepdive.prodevme.ExportType.OnShareListener;
+import edu.cnm.deepdive.prodevme.models.Document;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.spongycastle.crypto.tls.MACAlgorithm;
 
 public class MainActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
   public static final String USER_ID_KEY = "user_id";
   public static final String USER_NAME_KEY = "user_name";
+  public static final String DOCUMENT_KEY = "documentId";
+  private static final MediaType MEDIA_TYPE_TEXT = MediaType.parse("text/plain");
 
   private ResumeDatabase rDatabase;
   private long userId;
   private String firstName;
+  private File newFile;
+  private Uri contentUri;
+  private Document document;
+  private Toast shared;
 
   public String getFirstName() {
     return firstName;
@@ -48,6 +81,7 @@ public class MainActivity extends AppCompatActivity
     Intent intent = getIntent();
     userId = intent.getLongExtra(USER_ID_KEY, 0);
     firstName = intent.getStringExtra(USER_NAME_KEY);
+    shared = Toast.makeText(MainActivity.this, "Shared!", Toast.LENGTH_SHORT);
     getSupportFragmentManager().beginTransaction()
               .replace(R.id.fragment_container, new WelcomeScreenFragment())
               .commit();
@@ -99,11 +133,49 @@ public class MainActivity extends AppCompatActivity
     int id = item.getItemId();
 
     //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
+    if (id == R.id.menu_item_share) {
+      final String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
+          "\n" + (document.getResume());
+      final File textFilePath = new File(MainActivity.this.getFilesDir(), "export_resumes");
+      ExportType exportType = new ExportType();
+      newFile = new File(textFilePath, "resume_" + document.getId() + ".txt");
+      textFilePath.mkdirs();
+      try {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
+        writer.write(wholeDocument);
+        writer.close();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      contentUri = getUriForFile
+          (MainActivity.this, "edu.cnm.deepdive.prodeveme.fileprovider", newFile);
+      exportType.setOnShareListener(new OnShareListener() {
+        @Override
+        public void shareText() {
+          Intent shareIntent = new Intent();
+          shareIntent.setAction(Intent.ACTION_SEND);
+          shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+          shareIntent.setType("text/plain");
+          startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
+        }
+
+        @Override
+        public void sharePdf() {
+          new Pdf().execute();
+        }
+      });
+      exportType.show(getSupportFragmentManager(), "dialog");
     }
 
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (resultCode == RESULT_OK) {
+      shared.show();
+    }
   }
 
   @SuppressWarnings("StatementWithEmptyBody")
@@ -165,4 +237,86 @@ public class MainActivity extends AppCompatActivity
     this.userId = userId;
   }
 
+
+  private class Pdf extends AsyncTask<Object, Object, Object> {
+
+    public static final String MARKDOWN_URL = "http://www.markdowntopdf.com/app/download/";
+
+    @Override
+    protected Object doInBackground(Object... objects) {
+      OkHttpClient client = new OkHttpClient();
+      final File textFilePath = new File(MainActivity.this.getFilesDir(), "export_resumes");
+      File pdfFile = new File(textFilePath, "resume_" + document.getId() + ".pdf");
+
+      RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
+          .addFormDataPart("file", newFile.getName(),
+              RequestBody.create(MEDIA_TYPE_TEXT, newFile))
+          .build();
+
+      Request request = new Request.Builder().url("http://www.markdowntopdf.com/app/upload")
+          .post(requestBody).build();
+
+      Response response = null;
+      try {
+        response = client.newCall(request).execute();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      if (!response.isSuccessful()) {
+        try {
+          throw new IOException("Unexpected code " + response);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+      String folderName = null;
+      String fileName = null;
+      try {
+        JSONObject responseJson = new JSONObject(response.body().string());
+        folderName = responseJson.getString("foldername");
+        fileName = responseJson.getString("urlfilename");
+      } catch (JSONException e) {
+        throw new RuntimeException(e);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      contentUri = getUriForFile
+          (MainActivity.this, "edu.cnm.deepdive.prodeveme.fileprovider", pdfFile);
+      downloadFile(MARKDOWN_URL + folderName + "/" + fileName, pdfFile);
+      Intent shareIntent = new Intent();
+      shareIntent.setAction(Intent.ACTION_SEND);
+      shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+      shareIntent.setType("application/pdf");
+      startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
+      return null;
+    }
+  }
+
+  private static void downloadFile(String url, File outputFile) {
+    try {
+      URL u = new URL(url);
+      InputStream is = u.openStream();
+
+      DataInputStream dis = new DataInputStream(is);
+
+      byte[] buffer = new byte[1024];
+      int length;
+
+      FileOutputStream fos = new FileOutputStream(outputFile);
+      while ((length = dis.read(buffer))>0) {
+        fos.write(buffer, 0, length);
+      }
+
+    } catch (MalformedURLException mue) {
+      Log.e("SYNC getUpdate", "malformed url error", mue);
+    } catch (IOException ioe) {
+      Log.e("SYNC getUpdate", "io error", ioe);
+    } catch (SecurityException se) {
+      Log.e("SYNC getUpdate", "security error", se);
+    }
+  }
+
+  public void setDocument(Document document) {
+    this.document = document;
+  }
 }

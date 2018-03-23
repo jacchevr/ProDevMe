@@ -4,13 +4,19 @@ package edu.cnm.deepdive.prodevme;
 import static android.support.v4.content.FileProvider.getUriForFile;
 import static android.support.v4.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,15 +31,25 @@ import edu.cnm.deepdive.prodevme.ConfirmDeletion.OnDeleteListener;
 import edu.cnm.deepdive.prodevme.ExportType.OnShareListener;
 import edu.cnm.deepdive.prodevme.models.Document;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
 import us.feras.mdv.MarkdownView;
 
 
@@ -148,48 +164,6 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
         }
       });
       confirmDelete.show(getFragmentManager(), "dialog");
-    } else {
-      final String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
-          "\n" + (document.getResume());
-      final File textFilePath = new File(getActivity().getFilesDir(), "export_resumes");
-      ExportType exportType = new ExportType();
-      newFile = new File(textFilePath, "resume_" + document.getId() + ".txt");
-      textFilePath.mkdirs();
-      try {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
-        writer.write(wholeDocument);
-        writer.close();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-
-      contentUri = getUriForFile
-          (getContext(), "edu.cnm.deepdive.prodeveme.fileprovider", newFile);
-      exportType.setOnShareListener(new OnShareListener() {
-        @Override
-        public void shareText() {
-          Intent shareIntent = new Intent();
-          shareIntent.setAction(Intent.ACTION_SEND);
-          shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-          shareIntent.setType("text/plain");
-          startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
-        }
-
-        @Override
-        public void sharePdf() {
-            new Pdf().execute();
-        }
-      });
-
-
-
-      // For plain text
-//      Intent shareIntent = new Intent();
-//      shareIntent.setAction(Intent.ACTION_SEND);
-//      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
-//      shareIntent.setType("text/plain");
-//      startActivity(Intent.createChooser(shareIntent, "Share"));
-      exportType.show(getFragmentManager(), "dialog");
     }
     return super.onOptionsItemSelected(item);
   }
@@ -222,44 +196,6 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
         ((TextView) single.findViewById(R.id.industry)).setText(show.getIndustry());
         ((TextView) single.findViewById(R.id.profession)).setText(show.getProfession());
         ((MarkdownView) single.findViewById(R.id.resume)).loadMarkdown(show.getResume());
-      }
-    }
-
-    private class Pdf extends AsyncTask<Object, Object, Object> {
-
-      public static final String MARKDOWN_URL = "http://www.markdowntopdf.com/app/download/";
-
-      @Override
-      protected Object doInBackground(Object... objects) {
-        OkHttpClient client = new OkHttpClient();
-
-        RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("file", newFile.getName(),
-                RequestBody.create(MEDIA_TYPE_TEXT, newFile))
-            .build();
-
-        Request request = new Request.Builder().url("http://www.markdowntopdf.com/app/upload")
-            .post(requestBody).build();
-
-        Response response = null;
-        try {
-          response = client.newCall(request).execute();
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-        if (!response.isSuccessful()) {
-          try {
-            throw new IOException("Unexpected code " + response);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, MARKDOWN_URL );
-        shareIntent.setType("application/pdf");
-        startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
-        return null;
       }
     }
 }

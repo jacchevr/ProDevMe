@@ -1,19 +1,14 @@
 package edu.cnm.deepdive.prodevme;
 
 
-import static android.support.v4.content.FileProvider.getUriForFile;
 import static android.support.v4.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract.Directory;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,15 +20,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.prodevme.ConfirmDeletion.OnDeleteListener;
-import edu.cnm.deepdive.prodevme.ExportType.OnShareListener;
 import edu.cnm.deepdive.prodevme.models.Document;
-import edu.cnm.deepdive.prodevme.utility.MarkdownSharing;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 
 
 /**
@@ -44,9 +31,6 @@ public class SingleResume extends Fragment implements OnClickListener {
 
   public static final String DOCUMENT_KEY = "documentId";
   private View single;
-  private Button edit;
-  private Button delete;
-  private Button markdown;
   private Document document;
   private Toast deleted;
   private FloatingActionButton fab;
@@ -150,49 +134,7 @@ public class SingleResume extends Fragment implements OnClickListener {
         }
       });
       confirmDelete.show(getFragmentManager(), "dialog");
-    } else {
-      final String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
-          "\n" + (document.getResume());
-      final File textFilePath = new File(getActivity().getFilesDir(), "export_resumes");
-      ExportType exportType = new ExportType();
-      exportType.setOnShareListener(new OnShareListener() {
-        @Override
-        public void shareText() {
-          File newFile = new File(textFilePath, "resume_" + document.getId() + ".txt");
-          textFilePath.mkdirs();
-          try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(newFile));
-            writer.write(wholeDocument);
-            writer.close();
-          } catch (IOException e) {
-            throw new RuntimeException(e);
-          }
-
-          Uri contentUri = getUriForFile
-              (getContext(), "edu.cnm.deepdive.prodeveme.fileprovider", newFile);
-          Intent shareIntent = new Intent();
-          shareIntent.setAction(Intent.ACTION_SEND);
-          shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-          shareIntent.setType("text/plain");
-          startActivityForResult(Intent.createChooser(shareIntent, "Share"), 0);
-        }
-
-        @Override
-        public void sharePdf() {
-
-        }
-      });
-
-
-
-        // For plain text
-//      Intent shareIntent = new Intent();
-//      shareIntent.setAction(Intent.ACTION_SEND);
-//      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
-//      shareIntent.setType("text/plain");
-//      startActivity(Intent.createChooser(shareIntent, "Share"));
-      exportType.show(getFragmentManager(), "dialog");
-      }
+    }
       return super.onOptionsItemSelected(item);
     }
 
@@ -221,6 +163,7 @@ public class SingleResume extends Fragment implements OnClickListener {
 
     @Override
     protected void onPostExecute(Document show) {
+      ((MainActivity) getActivity()).setDocument(show);
       document = show;
       ((TextView)single.findViewById(R.id.industry)).setText(show.getIndustry());
       ((TextView)single.findViewById(R.id.profession)).setText(show.getProfession());
