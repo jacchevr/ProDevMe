@@ -69,6 +69,7 @@ Laguage (Natural Language Processing) API.
 
 
 **********************************************************************************
+## License
 
 Copyright &copy; 2018 Jacques Chevrier
 
