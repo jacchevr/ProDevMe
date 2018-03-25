@@ -44,15 +44,15 @@ interpreted as HTML and then saved as a PDF document.
 
 + [OKHTTP](https://github.com/square/okhttp)
 
-+ Feras MarkdownView
++ [MarkdownView](https://github.com/falnatsheh/MarkdownView)
 
 + [ROOM (ORM)](https://developer.android.com/topic/libraries/architecture/room.html)
 
 ### External Services
 
-+ Google Drive
++ [Google Drive](https://www.google.com/drive/)
 
-+ markdowntopdf.com
++ [markdowntopdf.com](http://www.markdowntopdf.com/)
 
 ### Improvements
 
@@ -67,9 +67,15 @@ Laguage (Natural Language Processing) API.
 
 + Give the user the ability to upload more than resumes and cover letter.
 
-### Third Party Libraries
+### Third Party Libraries Licenses
 
-+ 
++ [PDFBox](https://github.com/apache/pdfbox/blob/trunk/LICENSE.txt)
+
++ [OKHTTP](https://github.com/square/okhttp/blob/master/LICENSE.txt)
+
++ [MarkdownView](https://github.com/falnatsheh/MarkdownView/blob/master/license.txt)
+
++ [ROOM](http://lmgtfy.com/?q=Room+Orm+License)
 
 
 **********************************************************************************
