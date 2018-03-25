@@ -40,13 +40,13 @@ interpreted as HTML and then saved as a PDF document.
 
 ### 3rd Party Libraries
 
-+ PDFBox[https://github.com/apache/pdfbox]
++ PDFBox [https://github.com/apache/pdfbox]
 
-+ OKHTTP[https://github.com/square/okhttp]
++ OKHTTP [https://github.com/square/okhttp]
 
 + Feras MarkdownView
 
-+ ROOM (ORM)[https://developer.android.com/topic/libraries/architecture/room.html]
++ ROOM (ORM) [https://developer.android.com/topic/libraries/architecture/room.html]
 
 ### External Services
 
