@@ -40,13 +40,13 @@ interpreted as HTML and then saved as a PDF document.
 
 ### 3rd Party Libraries
 
-+ PDFBox
++ PDFBox[https://github.com/apache/pdfbox]
 
-+ OKHTTP
++ OKHTTP[https://github.com/square/okhttp]
 
 + Feras MarkdownView
 
-+ ROOM (ORM)
++ ROOM (ORM)[https://developer.android.com/topic/libraries/architecture/room.html]
 
 ### External Services
 
@@ -66,6 +66,10 @@ to make the UI look nicer/cleaner.
 Laguage (Natural Language Processing) API.
 
 + Give the user the ability to upload more than resumes and cover letter.
+
+### Third Party Libraries
+
++ 
 
 
 **********************************************************************************
