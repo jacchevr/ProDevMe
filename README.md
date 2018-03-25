@@ -30,13 +30,13 @@ interpreted as HTML and then saved as a PDF document.
 
 + Camera integration along with OCR
 
-### Tested Devices
+### Tested Versions of Android OS
 
-+ Nexus 5X emulator (API 23) running on GenyMotion
++ Android 6.0.1 (Nexus 5X/API 23)
 
-+ Motorola Moto E (API 25)
++ Android 8.1 (Motorola Moto E/API 25)
 
-+ Samsung Tab S2 (API 21)
++ Android 5.1.1 (Samsung Tab S2/API 21)
 
 ### 3rd Party Libraries
 
