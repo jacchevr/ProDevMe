@@ -30,7 +30,7 @@ interpreted as HTML and then saved as a PDF document.
 
 + Camera integration along with OCR
 
-## Tested Devices
+### Tested Devices
 
 + Nexus 5X emulator (API 23) running on GenyMotion
 
@@ -38,7 +38,7 @@ interpreted as HTML and then saved as a PDF document.
 
 + Samsung Tab S2 (API 21)
 
-## 3rd Party Libraries
+### 3rd Party Libraries
 
 + PDFBox
 
@@ -48,19 +48,19 @@ interpreted as HTML and then saved as a PDF document.
 
 + ROOM (ORM)
 
-## External Services
+### External Services
 
 + Google Drive
 
 + markdowntopdf.com
 
-## Improvements
+### Improvements
 
 There aren't really specific things I would say should be improved cosmetically.
 I would like to show the app to multiple people and ask what they would improve
 to make the UI look nicer/cleaner.
 
-## Stretch Goals
+### Stretch Goals
 
 + Having documents analyzed for formatting and possibly intent using Einstein
 Laguage (Natural Language Processing) API.
