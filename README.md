@@ -1,5 +1,86 @@
 # ProDevMe
 
+## Motivations
+
+Pro Dev Me started off as a MadLibs game. We wanted to create a game that we could 
+get a laugh out of while writing code that was going to prove challenging.
+After a brainstorm session, we figured out that the underlying technology
+of our game could be used to address a problem a lot of people have in present day.
+During our first Professional Development session in our coding bootcamp, we found 
+that our resumes were no where near as well written as we thought they were.
+This is where we believe Pro Dev Me can help.
+People have problems getting jobs everyday and sadly, many don't even know why.
+In many cases, their resume never even reached a recruiter or a hiring manager,
+it was filtered out in the company's automated screening. Our aim is to help the
+user get their resume past the initial screening and in front of an actual human.
+
+## Current State
+
+In its current state, Pro Dev Me can create, store, edit, share, and import documents.
+All documents are saved in local storage unless shared to a cloud service such as
+Google Drive. When sharing, the user has the option to export their document as a
+plain text file, or as a pdf file. If markdown is present in the document it is 
+interpreted as HTML and then saved as a PDF document.
+
+### What is still needed
+
++ Scanning of the document for keywords
+
++ SalesForce as a backend
+
++ Camera integration along with OCR
+
+### Tested Versions of Android OS
+
++ Android 6.0.1 (Nexus 5X/API 23)
+
++ Android 8.1 (Motorola Moto E/API 25)
+
++ Android 5.1.1 (Samsung Tab S2/API 21)
+
+### 3rd Party Libraries
+
++ [PDFBox](https://github.com/apache/pdfbox)
+
++ [OKHTTP](https://github.com/square/okhttp)
+
++ [MarkdownView](https://github.com/falnatsheh/MarkdownView)
+
++ [ROOM (ORM)](https://developer.android.com/topic/libraries/architecture/room.html)
+
+### External Services
+
++ [Google Drive](https://www.google.com/drive/)
+
++ [markdowntopdf.com](http://www.markdowntopdf.com/)
+
+### Improvements
+
+There aren't really specific things I would say should be improved cosmetically.
+I would like to show the app to multiple people and ask what they would improve
+to make the UI look nicer/cleaner.
+
+### Stretch Goals
+
++ Having documents analyzed for formatting and possibly intent using Einstein
+Laguage (Natural Language Processing) API.
+
++ Give the user the ability to upload more than resumes and cover letter.
+
+### Third Party Libraries Licenses
+
++ [PDFBox](https://github.com/apache/pdfbox/blob/trunk/LICENSE.txt)
+
++ [OKHTTP](https://github.com/square/okhttp/blob/master/LICENSE.txt)
+
++ [MarkdownView](https://github.com/falnatsheh/MarkdownView/blob/master/license.txt)
+
++ [ROOM](http://lmgtfy.com/?q=Room+Orm+License)
+
+
+**********************************************************************************
+## License
+
 Copyright &copy; 2018 Jacques Chevrier
 
 Licensed under the Apache License, Version 2.0 (the "License");

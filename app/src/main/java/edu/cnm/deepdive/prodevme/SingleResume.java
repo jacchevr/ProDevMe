@@ -1,13 +1,14 @@
 package edu.cnm.deepdive.prodevme;
 
 
+import static android.support.v4.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,14 +31,15 @@ public class SingleResume extends Fragment implements OnClickListener {
 
   public static final String DOCUMENT_KEY = "documentId";
   private View single;
-  private Button edit;
-  private Button delete;
-  private Button markdown;
   private Document document;
   private Toast deleted;
   private FloatingActionButton fab;
   private Toast markdownView;
-  String wholeDocument;
+  private Toast shared;
+
+  public Document getDocument() {
+    return document;
+  }
 
   public SingleResume() {
     // Required empty public constructor
@@ -60,6 +62,7 @@ public class SingleResume extends Fragment implements OnClickListener {
     fab.setOnClickListener(this);
     deleted = Toast.makeText(getActivity(), "Resume Deleted", Toast.LENGTH_SHORT);
     markdownView = Toast.makeText(getActivity(), "Markdown View", Toast.LENGTH_LONG);
+    shared = Toast.makeText(getActivity(), "Shared!", Toast.LENGTH_SHORT);
     return single;
   }
 
@@ -131,22 +134,15 @@ public class SingleResume extends Fragment implements OnClickListener {
         }
       });
       confirmDelete.show(getFragmentManager(), "dialog");
-    } else {
-      // For PDF
-//      Intent shareIntent = new Intent();
-//      shareIntent.setAction(Intent.ACTION_SEND);
-//      shareIntent.putExtra(Intent.EXTRA_STREAM, "This is a test");
-//      shareIntent.setType("application/pdf");
-//      startActivity(Intent.createChooser(shareIntent, "Share"));
-      String wholeDocument = (document.getIndustry()) + "\n" + (document.getProfession()) + "\n" +
-          "\n" + (document.getResume());
-      Intent shareIntent = new Intent();
-      shareIntent.setAction(Intent.ACTION_SEND);
-      shareIntent.putExtra(Intent.EXTRA_TEXT, wholeDocument);
-      shareIntent.setType("text/plain");
-      startActivity(Intent.createChooser(shareIntent, "Share"));
     }
-    return super.onOptionsItemSelected(item);
+      return super.onOptionsItemSelected(item);
+    }
+
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (resultCode == RESULT_OK) {
+      shared.show();
+    }
   }
 
   @Override
@@ -167,6 +163,7 @@ public class SingleResume extends Fragment implements OnClickListener {
 
     @Override
     protected void onPostExecute(Document show) {
+      ((MainActivity) getActivity()).setDocument(show);
       document = show;
       ((TextView)single.findViewById(R.id.industry)).setText(show.getIndustry());
       ((TextView)single.findViewById(R.id.profession)).setText(show.getProfession());

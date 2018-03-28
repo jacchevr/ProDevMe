@@ -25,6 +25,7 @@ android {
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE-*'
     }
 }
 
@@ -43,7 +44,7 @@ dependencies {
     compile 'android.arch.persistence.room:runtime:1.0.0'
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'us.feras.mdv:markdownview:1.1.0'
-    compile group: 'eu.de-swaef.pdf', name: 'Markdown2Pdf', version: '2.0.1'
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 }

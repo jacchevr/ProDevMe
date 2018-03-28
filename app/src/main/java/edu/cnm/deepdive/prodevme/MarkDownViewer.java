@@ -1,11 +1,22 @@
 package edu.cnm.deepdive.prodevme;
 
 
+import static android.support.v4.content.FileProvider.getUriForFile;
+import static android.support.v4.provider.FontsContractCompat.FontRequestCallback.RESULT_OK;
+
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +28,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import edu.cnm.deepdive.prodevme.ConfirmDeletion.OnDeleteListener;
+import edu.cnm.deepdive.prodevme.ExportType.OnShareListener;
 import edu.cnm.deepdive.prodevme.models.Document;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
 import us.feras.mdv.MarkdownView;
 
 
@@ -28,6 +60,8 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
 
 
   public static final String DOCUMENT_KEY = "documentId";
+  private static final MediaType MEDIA_TYPE_TEXT = MediaType.parse("text/plain");
+
   private View single;
   private Button edit;
   private Button delete;
@@ -35,6 +69,9 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
   private Toast deleted;
   private FloatingActionButton fab;
   private Toast text;
+  private Toast shared;
+  private File newFile;
+  private Uri contentUri;
 
   public MarkDownViewer() {
     // Required empty public constructor
@@ -56,6 +93,7 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
     fab.setOnClickListener(this);
     deleted = Toast.makeText(getActivity(), "Resume Deleted", Toast.LENGTH_SHORT);
     text = Toast.makeText(getActivity(), "Plain Text View", Toast.LENGTH_SHORT);
+    shared = Toast.makeText(getActivity(), "Shared!", Toast.LENGTH_SHORT);
     return single;
   }
 
@@ -127,10 +165,17 @@ public class MarkDownViewer extends Fragment implements OnClickListener {
       });
       confirmDelete.show(getFragmentManager(), "dialog");
     }
-      return super.onOptionsItemSelected(item);
+    return super.onOptionsItemSelected(item);
   }
 
-    @Override
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (resultCode == RESULT_OK) {
+      shared.show();
+    }
+  }
+
+  @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
       // Inflate the menu; this adds items to the action bar if it is present.
       inflater.inflate(R.menu.resume_menu, menu);

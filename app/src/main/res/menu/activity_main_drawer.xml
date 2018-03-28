@@ -25,22 +25,23 @@
 
   </group>
 
-  <item android:title="Resources"
-    android:fontFamily="serif">
-    <menu>
-      <item
-        android:id="@+id/news"
-        android:icon="@drawable/news"
-        android:title="News"
-        android:fontFamily="serif"/>
+  <!--Used for news and resume tools selections in activity drawer-->
+  <!--<item android:title="Resources"-->
+    <!--android:fontFamily="serif">-->
+    <!--<menu>-->
+      <!--<item-->
+        <!--android:id="@+id/news"-->
+        <!--android:icon="@drawable/news"-->
+        <!--android:title="News"-->
+        <!--android:fontFamily="serif"/>-->
 
-      <item
-        android:id="@+id/resume_create"
-        android:icon="@drawable/resume_creation"
-        android:title="Resume Creation Tools"
-        android:fontFamily="serif"/>
+      <!--<item-->
+        <!--android:id="@+id/resume_create"-->
+        <!--android:icon="@drawable/resume_creation"-->
+        <!--android:title="Resume Creation Tools"-->
+        <!--android:fontFamily="serif"/>-->
 
-    </menu>
-  </item>
+    <!--</menu>-->
+  <!--</item>-->
 
 </menu>
