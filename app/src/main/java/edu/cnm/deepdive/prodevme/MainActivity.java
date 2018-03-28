@@ -214,9 +214,11 @@ public class MainActivity extends AppCompatActivity
           R.anim.slide_out_right, R.anim.slide_in_right, R.anim.slide_out_left)
           .replace(R.id.fragment_container,
               new ResumeUploader()).addToBackStack("String").commit();
-    } else if (id == R.id.news) {
 
-    } else if (id == R.id.resume_create) {
+      //Used for News and Resume Creation Tools in nav drawer
+//    } else if (id == R.id.news) {
+//
+//    } else if (id == R.id.resume_create) {
 
     }
 
