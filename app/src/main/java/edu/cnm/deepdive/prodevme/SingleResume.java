@@ -29,7 +29,7 @@ import edu.cnm.deepdive.prodevme.models.Document;
 public class SingleResume extends Fragment implements OnClickListener {
 
 
-  public static final String DOCUMENT_KEY = "documentId";
+  static final String DOCUMENT_KEY = "documentId";
   private View single;
   private Document document;
   private Toast deleted;

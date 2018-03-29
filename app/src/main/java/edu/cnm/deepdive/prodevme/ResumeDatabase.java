@@ -22,7 +22,7 @@ public abstract class ResumeDatabase extends RoomDatabase {
 
   public abstract UserDao userDao();
 
-  public static ResumeDatabase getInstance(Context context) {
+  static ResumeDatabase getInstance(Context context) {
     if (instance == null) {
       instance = Room.databaseBuilder(context.getApplicationContext(), ResumeDatabase.class,
           DATABASE_NAME).addCallback(new Callback(context)).build();

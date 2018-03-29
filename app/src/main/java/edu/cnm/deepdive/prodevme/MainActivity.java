@@ -227,14 +227,18 @@ public class MainActivity extends AppCompatActivity
     return true;
   }
 
-  public ResumeDatabase getDatabase() {
+  ResumeDatabase getDatabase() {
     return ResumeDatabase.getInstance(this);
   }
 
-  public long getUserId() {
+  long getUserId() {
     return userId;
   }
 
+  /**
+   * This method sets the userId within the database
+   * @param userId
+   */
   public void setUserId(long userId) {
     this.userId = userId;
   }
@@ -242,7 +246,7 @@ public class MainActivity extends AppCompatActivity
 
   private class Pdf extends AsyncTask<Object, Object, Object> {
 
-    public static final String MARKDOWN_URL = "http://www.markdowntopdf.com/app/download/";
+    static final String MARKDOWN_URL = "http://www.markdowntopdf.com/app/download/";
 
     @Override
     protected Object doInBackground(Object... objects) {
@@ -318,6 +322,9 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
+  /**
+   * @param document is a table within the database
+   */
   public void setDocument(Document document) {
     this.document = document;
   }

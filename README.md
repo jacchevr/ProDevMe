@@ -1,5 +1,7 @@
 # ProDevMe
 
+[JavaDoc](docs/api)
+
 ## Motivations
 
 Pro Dev Me started off as a MadLibs game. We wanted to create a game that we could 

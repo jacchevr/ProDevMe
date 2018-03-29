@@ -12,6 +12,15 @@ import java.io.InputStream;
 
 public class PdfStripper {
 
+  /**
+   * This method is used to extract plain
+   * text from a pdf document. The method
+   * takes an InputStream as a parameter,
+   * and returns a String[], or plain text.
+   * @param doc is the pdf being used
+   * @return lines are the lines of plain text.
+   * @throws IOException
+   */
   public static String[] strip(InputStream doc) throws IOException {
 
     try (PDDocument document = PDDocument.load(doc)) {
