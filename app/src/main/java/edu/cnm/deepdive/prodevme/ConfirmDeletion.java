@@ -14,6 +14,8 @@ import edu.cnm.deepdive.prodevme.models.Document;
 
 
 /**
+ * This class is a dialog box
+ * for deletion confirmation
  * A simple {@link Fragment} subclass.
  */
 public class ConfirmDeletion extends DialogFragment {
@@ -21,19 +23,43 @@ public class ConfirmDeletion extends DialogFragment {
   Document document = null;
   OnDeleteListener onDeleteListener = null;
 
+  /**
+   * This method is a getter for the OnDeleteListener
+   * The onDeleteListener is used to receive a message
+   * when deletion occurs.
+   * @return onDeleteListener
+   */
   public OnDeleteListener getOnDeleteListener() {
     return onDeleteListener;
   }
 
+  /**
+   * This method is a setter for the OnDeleteListener
+   * The onDeleteListener
+   * @param onDeleteListener is used to receive a message
+   * when deletion occurs.
+   */
   public void setOnDeleteListener(
       OnDeleteListener onDeleteListener) {
     this.onDeleteListener = onDeleteListener;
   }
 
+  /**
+   * This method is a getter for the document
+   * document is the object that holds the resume in
+   * this case
+   * @return document
+   */
   public Document getDocument() {
     return document;
   }
 
+  /**
+   * This method is a setter for the document
+   * document is the object that holds the resume in
+   * this case
+   * @param document
+   */
   public void setDocument(Document document) {
     this.document = document;
   }

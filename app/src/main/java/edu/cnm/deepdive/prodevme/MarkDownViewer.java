@@ -54,6 +54,9 @@ import us.feras.mdv.MarkdownView;
 
 
 /**
+ * This class is a fragment for viewing
+ * text formatted with markdown
+ * from the document table as HTML
  * A simple {@link Fragment} subclass.
  */
 public class MarkDownViewer extends Fragment implements OnClickListener {

@@ -10,13 +10,30 @@ import android.support.v7.app.AlertDialog;
 import edu.cnm.deepdive.prodevme.models.Document;
 import java.util.ArrayList;
 
+/**
+ * This class is a dialog box
+ * for how the user wants to
+ * export their document
+ */
 public class ExportType extends DialogFragment {
 
   Document document = null;
   OnShareListener onShareListener = null;
 
+  /**
+   * This method is a getter for the OnShareListener
+   * The OnShareListener is used to receive a message
+   * when the share button is clicked
+   * @return
+   */
   public OnShareListener getOnShareListener() { return onShareListener; }
 
+  /**
+   * This method is a setter for the OnShareListener
+   * The OnShareListener is used to receive a message
+   * when the share button is clicked
+   * @param onShareListener
+   */
   public void setOnShareListener(OnShareListener onShareListener) {
     this.onShareListener = onShareListener;
   }

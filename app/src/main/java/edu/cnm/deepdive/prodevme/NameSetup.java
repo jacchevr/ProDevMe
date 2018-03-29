@@ -18,7 +18,12 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ *
+ * This activity is used when the user
+ * first opens the app. It prompts the
+ * user to enter their first and last
+ * name and stores those values in
+ * the user table within the database.
  */
 public class NameSetup extends AppCompatActivity implements OnClickListener {
 
